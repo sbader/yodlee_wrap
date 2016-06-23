@@ -1,7 +1,7 @@
-module Yodleeicious
+module YodleeWrap
   class ParameterTranslator
     def site_login_form_to_add_site_account_params site_login_form
-      
+
       params = { "credentialFields.enclosedType" => "com.yodlee.common.FieldInfoSingle" }
 
       i = 0
@@ -21,7 +21,6 @@ module Yodleeicious
 
         i += 1
       }
-
       params
     end
   end
