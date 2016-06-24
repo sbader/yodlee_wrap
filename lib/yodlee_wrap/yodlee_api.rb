@@ -42,25 +42,26 @@ module YodleeWrap
       response
     end
 
-    def user_params(username, password)
+    def user_params(username, password, email)
       {
         user: {
           loginName: username,
+          email: email,
           password: password,
           locale: 'en_US'
         }
       }
     end
 
-    def user_login(username:, password:)
-      params = user_params(username, password)
+    def login_user(username:, password:)
+      params = user_params(username, password, nil)
       response = cobranded_session_execute_api(:post, '/v1/user/login', params)
       @user_auth = response.success? ? response.body : nil
       response
     end
 
-    def register_user(username:, password:, options: {}, subscribe: true)
-      params = user_params(username, password).merge(options)
+    def register_user(username:, password:, email:, options: {}, subscribe: true)
+      params = user_params(username, password, email).merge(options)
       response = cobranded_session_execute_api(:post, '/v1/user/register', params)
       @user_auth = response.success? ? response.body : nil
       subscribe_user_to_refresh if response.success? && subscribe
@@ -86,14 +87,13 @@ module YodleeWrap
       user_session_execute_api(:post, '/v1/user/logout')
     end
 
-    def login_or_register_user(username:, password:, subscribe: true)
+    def login_or_register_user(username:, password:, email:, subscribe: true)
       info_log "Attempting to log in #{username}"
-      response = user_login(username: username, password: password)
-
+      response = login_user(username: username, password: password)
       # TODO: look into what other errors could occur here
       if response.fail? && response.error_code == 'Y002'
         info_log "Invalid credentials for #{username}. Attempting to register"
-        response = register_user(username: username, password: password, subscribe: subscribe)
+        response = register_user(username: username, password: password, email: email, subscribe: subscribe)
       else
         info_log response.error_message
       end
@@ -112,21 +112,26 @@ module YodleeWrap
     end
 
     def add_provider_account(provider_id, provider_params)
-      user_session_execute_api(:post, "v1/providers/#{provider_id}", provider_params)
+      user_session_execute_api(:post, "/v1/providers/#{provider_id}", provider_params)
     end
 
     def delete_provider_account(provider_account_id)
-      user_session_execute_api(:delete, "v1/providers/providerAccounts/#{provider_account_id}")
+      user_session_execute_api(:delete, "/v1/providers/providerAccounts/#{provider_account_id}")
     end
 
     # After an account has been added, use the returned provider_account_id
     # to get updates about the provider account.
     def get_provider_account_status(provider_account_id)
-      user_session_execute_api(:get, "v1/providers/#{provider_account_id}")
+      user_session_execute_api(:get, "/v1/providers/providerAccounts/#{provider_account_id}")
+    end
+
+    # Get all provider accounts for the currently logged in user.
+    def get_all_provider_accounts
+      user_session_execute_api(:get, '/v1/providers/providerAccounts')
     end
 
     def update_provider_account(provider_account_id, provider_params)
-      user_session_execute_api(:put, "v1/providers/providerAccounts?providerAccountIds=#{provider_account_id}", provider_params)
+      user_session_execute_api(:put, "/v1/providers/providerAccounts?providerAccountIds=#{provider_account_id}", provider_params)
     end
 
     def cobranded_session_execute_api(method, url, params = {})

@@ -134,7 +134,7 @@ pry(main)> yodlee_api.user_session_token
 ### Login existing user
 
 ```
-pry(main)> response = yodlee_api.user_login 'my-username', 'my-password123'
+pry(main)> response = yodlee_api.login_user 'my-username', 'my-password123'
 pry(main)> yodlee_api.user_session_token
 => "12162013_1:69761d51a4010e6382ccb49b854513dbccad0f835a873d37884b68826acefaa5b8d41b634f4cc83d97d86e7df861f70860a4e4d8a3f08d5b5440eae504af5f19"
 ```

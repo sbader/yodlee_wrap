@@ -16,5 +16,15 @@ module YodleeWrap
     def fail?
       body.is_a?(Hash) && !(body.fetch('errorCode', nil)).nil?
     end
+
+    def mfa?
+      if body.is_a?(Hash) && body['provider'] && body['provider'].length == 1
+        body['provider'].first['mfaType']
+      end
+    end
+
+    def mfa_type
+      body['provider'].first['mfaType'] if mfa?
+    end
   end
 end

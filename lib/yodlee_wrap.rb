@@ -6,7 +6,6 @@ require 'socksify/http'
 
 require File.dirname(__FILE__) + "/yodlee_wrap/version"
 require File.dirname(__FILE__) + "/yodlee_wrap/config"
-require File.dirname(__FILE__) + "/yodlee_wrap/parameter_translator"
 require File.dirname(__FILE__) + "/yodlee_wrap/response"
 require File.dirname(__FILE__) + "/yodlee_wrap/yodlee_api"
 
