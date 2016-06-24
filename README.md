@@ -33,12 +33,11 @@ We needed to use the Yodlee API both within a rails app and outside with multipl
 require "yodleeicious"
 
 config = {
-  base_url: "https://consolidatedsdk.yodlee.com/yodsoap/srest/my-cobranded-path/v1.0",
-  cobranded_username: "my-cobranded-user",
-  cobranded_password: "my-cobranded-password"
+  cobranded_username: your_username,
+  cobranded_password: your_password
 }
 
-yodlee_api = Yodleeicious::YodleeApi.new(config)
+yodlee_api = YodleeWrap::YodleeApi.new(config)
 
 ```
 When in a Rails app it can be more convenient to use a global default configuration. To use global defaults:
@@ -55,7 +54,7 @@ Yodleeicious::Config.cobranded_password = ENV['YODLEE_COBRANDED_PASSWORD']
 #setting yodleeicious logger to use the Rails logger
 Yodleeicious::Config.logger = Rails.logger
 ```
-and wherever you want to use the api simply create a new one and it will pickup the global defaults. 
+and wherever you want to use the api simply create a new one and it will pickup the global defaults.
 
 ```ruby
 yodlee_api = Yodleeicious::YodleeApi.new
@@ -99,7 +98,7 @@ The Yodlee Api responses are somewhat varied (especially the errors) and as such
 
 ### Starting your cobranded session
 
-Once you've configured an instance of the YodleeAPI the first thing you must do is start a Yodlee cobranded session. This is also a good rails console test to see if everything is configured correctly: 
+Once you've configured an instance of the YodleeAPI the first thing you must do is start a Yodlee cobranded session. This is also a good rails console test to see if everything is configured correctly:
 
 ```ruby
 pry(main)> yodlee_api = Yodleeicious::YodleeApi.new
@@ -113,7 +112,7 @@ As you probably suspect the call to cobranded_login wraps the ```/authenticate/c
 pry(main)> yodlee_api.cobranded_session_token
 => "12162013_1:a0b1ac3e32a2e656f8f5bd21de23ae1721ffd9dab8bee9f29811f5959bbf102f16c98354eba252bb030dc96e267bd2489a40562f18e09ee8ba9038d19280cc43"
 ```
-At this point something has probably gone wrong for you and you want to see the response json from ```/authenticate/coblogin```. To do this simply use ```response#body```. 
+At this point something has probably gone wrong for you and you want to see the response json from ```/authenticate/coblogin```. To do this simply use ```response#body```.
 
 ```
 pry(main)> response.body
@@ -122,7 +121,7 @@ pry(main)> response.body
 
 ### Starting a user session
 
-Once the cobranded session is active a number of API endpoints will work however most of the interesting ones require you to register or login under a user account. It is within these accounts that you can add the user's bank accounts and whatnot to aggregate their financial data. There are 3 methods offered to allow you to #register_user, #login_user, or do either #login_or_register_user. After executing any of these the user session will be started and the user's session token will be cached in the YodleeApi instance and used on subsequent calls to api endpoints. As with all api calls if the call was not successful you'll need to look at the body of the response to determine what went wrong. 
+Once the cobranded session is active a number of API endpoints will work however most of the interesting ones require you to register or login under a user account. It is within these accounts that you can add the user's bank accounts and whatnot to aggregate their financial data. There are 3 methods offered to allow you to #register_user, #login_user, or do either #login_or_register_user. After executing any of these the user session will be started and the user's session token will be cached in the YodleeApi instance and used on subsequent calls to api endpoints. As with all api calls if the call was not successful you'll need to look at the body of the response to determine what went wrong.
 
 ### Registering a new user
 
@@ -155,7 +154,7 @@ TODO
 
 ## Why the rename from Yodlicious?
 
-Rubygems.org's search apparently only indexes the gem name not the description or summary. This meant that if you searched for Yodlee in there Yodlicous didn't show up. Now it does. 
+Rubygems.org's search apparently only indexes the gem name not the description or summary. This meant that if you searched for Yodlee in there Yodlicous didn't show up. Now it does.
 
 ## Contributing
 

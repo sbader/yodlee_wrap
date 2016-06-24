@@ -21,7 +21,7 @@ class Faraday::Adapter::NetHttp
         Net::HTTP::Proxy(proxy[:uri].host, proxy[:uri].port, proxy[:uri].user, proxy[:uri].password)
       end
     else
-        Net::HTTP
+      Net::HTTP
     end.new(env[:url].host, env[:url].port)
   end
 end

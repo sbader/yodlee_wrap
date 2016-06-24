@@ -13,3 +13,5 @@
 *.a
 mkmf.log
 .env
+.DS_Store
+.byebug_history

@@ -3,7 +3,8 @@
 module YodleeWrap
   class Config
     class << self
-      attr_accessor :base_url, :cobranded_username, :cobranded_password, :proxy_url, :logger
+      attr_accessor :cobranded_username, :cobrand_name, :cobranded_password,
+                    :proxy_url, :logger, :webhook_endpoint
     end
 
     self.logger = Logger.new(STDOUT)

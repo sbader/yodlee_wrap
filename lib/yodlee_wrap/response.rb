@@ -1,9 +1,12 @@
 module YodleeWrap
   class Response
-    attr_accessor :body
+    attr_accessor :body, :status, :error_code, :error_message
 
-    def initialize(body)
+    def initialize(body, status)
       @body = body
+      @status = status
+      @error_code = body.fetch('errorCode') if fail?
+      @error_message = body.fetch('errorMessage') if fail?
     end
 
     def success?
@@ -11,15 +14,7 @@ module YodleeWrap
     end
 
     def fail?
-      body.is_a?(Hash) && (body.fetch('errorCode'))
-    end
-
-    def error_code
-      body.fetch('errorCode') if fail?
-    end
-
-    def error_message
-      body.fetch('errorMessage') if fail?
+      body.is_a?(Hash) && !(body.fetch('errorCode', nil)).nil?
     end
   end
 end

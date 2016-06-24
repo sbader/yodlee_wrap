@@ -1,12 +1,10 @@
-require "yodleeicious"
+require "yodlee_wrap"
 
 describe 'the yodlee api client integration tests', integration: true do
-  let(:config) { 
-    { 
-      base_url: ENV['YODLEE_BASE_URL'],
+  let(:config) {
+    {
       cobranded_username: ENV['YODLEE_COBRANDED_USERNAME'],
       cobranded_password: ENV['YODLEE_COBRANDED_PASSWORD'],
-      proxy_url: ENV['YODLEEICIOUS_PROXY_URL']
     }
   }
 
@@ -14,8 +12,8 @@ describe 'the yodlee api client integration tests', integration: true do
 
   let(:registered_user) {
     {
-      email: 'testuser_with_transactions@liftforward.com',
-      password: 'testpassword143'
+      username: 'sbMemstudentloangenius1',
+      password: 'sbMemstudentloangenius1#123'
     }
   }
 
@@ -39,7 +37,7 @@ describe 'the yodlee api client integration tests', integration: true do
     context 'Given valid cobranded credentials and base_url' do
       context 'Given a new user who does not exist within the cobranded account' do
         describe 'When /authenticate/coblogin is called the return' do
-          subject { 
+          subject {
             api.cobranded_login
             api.user_login 'testuser', 'testpassword'
           }
@@ -55,7 +53,7 @@ describe 'the yodlee api client integration tests', integration: true do
 
       context 'Given a user who does exist within the cobranded account' do
         describe 'When /authenticate/coblogin is called the return' do
-          subject { 
+          subject {
             api.cobranded_login
             api.user_login 'testuser', 'testpassword'
           }
@@ -133,7 +131,7 @@ describe 'the yodlee api client integration tests', integration: true do
       context 'When login_or_register_user is called' do
         subject { api.login_or_register_user email, password, email }
 
-        it 'should register the new user and set the user_session_token'  do 
+        it 'should register the new user and set the user_session_token'  do
           expect(subject).to be_success
           expect(subject).to be_kind_of(Yodleeicious::Response)
           expect(api.user_session_token).not_to be_nil
@@ -158,7 +156,7 @@ describe 'the yodlee api client integration tests', integration: true do
 
   describe '#get_site_info' do
     context 'Given a valid cobranded credentials and base_url' do
-      before { 
+      before {
         api.cobranded_login
       }
 
@@ -399,7 +397,7 @@ describe 'the yodlee api client integration tests', integration: true do
 
   describe 'the yodlee apis fetching summary data about registered site accounts endpoints' do
     context 'Given a registered user with registered accounts' do
-      before { 
+      before {
         api.cobranded_login
         api.user_login "testuser_with_transactions@liftforward.com", 'testpassword143'
         # api.register_user "testuser#{rand(100..999)}", 'testpassword143', 'test@test.com'
@@ -408,7 +406,7 @@ describe 'the yodlee api client integration tests', integration: true do
         # api.add_site_account_and_wait(16441, dag_login_form)
       }
 
-      context 'when getAllSiteAccounts is called the return' do 
+      context 'when getAllSiteAccounts is called the return' do
         subject { api.get_all_site_accounts }
 
         it 'is expected to return an array containing 1 siteAccount' do
@@ -456,7 +454,7 @@ describe 'the yodlee api client integration tests', integration: true do
 
   describe 'the yodlee apis fetching user/s transactions' do
     context 'Given a registered user with registered accounts' do
-      before { 
+      before {
         api.cobranded_login
         api.login_or_register_user 'testuser_with_transactions@liftforward.com', 'testpassword143', 'testuser_with_transactions@liftforward.com'
         dag_login_form['componentList'][0]['fieldValue'] = 'yodlicious.site16441.1'
@@ -482,7 +480,7 @@ describe 'the yodlee api client integration tests', integration: true do
     end
   end
 
-  pending 'downloading transaction history' 
+  pending 'downloading transaction history'
   pending 'fetching a list of content services'
   pending 'failing to create a new session'
   pending 'failing when running a search for a site'
