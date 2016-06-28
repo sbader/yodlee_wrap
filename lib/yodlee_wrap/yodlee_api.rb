@@ -1,4 +1,5 @@
 require 'json'
+require 'byebug'
 
 module YodleeWrap
   class YodleeApi
@@ -97,7 +98,6 @@ module YodleeWrap
       else
         info_log response.error_message
       end
-
       @user_auth = response.success? ? response.body : nil
 
       response
@@ -112,7 +112,8 @@ module YodleeWrap
     end
 
     def add_provider_account(provider_id, provider_params)
-      user_session_execute_api(:post, "/v1/providers/#{provider_id}", provider_params)
+      byebug
+      user_session_execute_api(:post, "/v1/providers/providerAccounts?providerId=#{provider_id}", provider_params)
     end
 
     def delete_provider_account(provider_account_id)
