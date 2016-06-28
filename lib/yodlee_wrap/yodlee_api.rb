@@ -122,8 +122,9 @@ module YodleeWrap
 
     # After an account has been added, use the returned provider_account_id
     # to get updates about the provider account.
+    # default to getting mfa questions if they are available.
     def get_provider_account_status(provider_account_id)
-      user_session_execute_api(:get, "/v1/providers/providerAccounts/#{provider_account_id}")
+      user_session_execute_api(:get, "/v1/providers/providerAccounts/#{provider_account_id}?include=credentials")
     end
 
     # Get all provider accounts for the currently logged in user.

@@ -19,7 +19,9 @@ module YodleeWrap
 
     def mfa?
       if body.is_a?(Hash) && body['provider'] && body['provider'].length == 1
-        body['provider'].first['mfaType']
+        body['provider'].first['mfaType'].present?
+      elsif body.is_a?(Hash) && body['providerAccount']
+        body['providerAccount']['refreshInfo']['additionalStatus'] == 'USER_INPUT_REQUIRED'
       end
     end
 
