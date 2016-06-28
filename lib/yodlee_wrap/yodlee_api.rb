@@ -112,7 +112,6 @@ module YodleeWrap
     end
 
     def add_provider_account(provider_id, provider_params)
-      byebug
       user_session_execute_api(:post, "/v1/providers/providerAccounts?providerId=#{provider_id}", provider_params)
     end
 
@@ -130,6 +129,10 @@ module YodleeWrap
     # Get all provider accounts for the currently logged in user.
     def get_all_provider_accounts
       user_session_execute_api(:get, '/v1/providers/providerAccounts')
+    end
+
+    def get_statements
+      user_session_execute_api(:get, '/v1/statements')
     end
 
     def update_provider_account(provider_account_id, provider_params)
@@ -163,7 +166,8 @@ module YodleeWrap
         request.headers['Content-Type'] = 'application/json' unless params.empty?
       end
       debug_log "response=#{response.status} success?=#{response.success?} body=#{response.body}"
-      Response.new(JSON.parse(response.body), response.status)
+      body = JSON.parse(response.body) if response.body
+      Response.new(body, response.status)
     end
 
     def cobranded_session_token
@@ -187,5 +191,6 @@ module YodleeWrap
     def base_url
       "https://developer.api.yodlee.com/ysl/#{cobrand_name}"
     end
+
   end
 end
