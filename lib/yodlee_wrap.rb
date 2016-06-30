@@ -8,6 +8,7 @@ require File.dirname(__FILE__) + "/yodlee_wrap/version"
 require File.dirname(__FILE__) + "/yodlee_wrap/config"
 require File.dirname(__FILE__) + "/yodlee_wrap/response"
 require File.dirname(__FILE__) + "/yodlee_wrap/yodlee_api"
+require File.dirname(__FILE__) + "/yodlee_wrap/responses/add_provider_account"
 
 class Faraday::Adapter::NetHttp
   def net_http_connection(env)
