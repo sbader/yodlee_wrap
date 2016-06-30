@@ -155,7 +155,7 @@ module YodleeWrap
       cobranded_auth_header + ",userSession=#{user_session_token}"
     end
 
-    def execute_api(method, url, params, auth_header = "")
+    def execute_api(method, url, params, auth_header = '')
       debug_log "calling #{url} with #{params}"
       ssl_opts = { verify: false }
       connection = Faraday.new(url: base_url, ssl: ssl_opts, request: { proxy: [] })
@@ -165,8 +165,8 @@ module YodleeWrap
         request.body = params.to_json unless params.empty?
         request.headers['Content-Type'] = 'application/json' unless params.empty?
       end
-      debug_log "response=#{response.status} success?=#{response.success?} body=#{response.body}"
-      body = JSON.parse(response.body) if response.body
+      body = JSON.parse(response.body) || {}
+      debug_log "response=#{response.status} success?=#{response.success?} body=#{body}"
       Response.new(body, response.status)
     end
 

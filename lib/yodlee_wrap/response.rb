@@ -41,7 +41,7 @@ module YodleeWrap
 
     def add_in_progress?
       return false unless body['providerAccount']
-      status == 'IN_PROGRESS' && additional_status == 'USER_INPUT_REQUIRED'
+      refresh_status == 'IN_PROGRESS' && additional_status == 'USER_INPUT_REQUIRED'
     end
 
     def mfa_available?
@@ -51,12 +51,12 @@ module YodleeWrap
 
     def add_successful?
       return false unless body['providerAccount']
-      ['SUCCESS', 'PARTIAL_SUCCESS'].include? status
+      ['SUCCESS', 'PARTIAL_SUCCESS'].include? refresh_status
     end
 
     def add_failed?
       return false unless body['providerAccount']
-      status == 'FAILED'
+      refresh_status == 'FAILED'
     end
 
     def provider_account_id
