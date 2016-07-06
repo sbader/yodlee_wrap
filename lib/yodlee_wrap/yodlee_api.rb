@@ -107,6 +107,13 @@ module YodleeWrap
       user_session_execute_api(:get, "/v1/transactions")
     end
 
+    def get_accounts_for(provider_account_id, container_name)
+      user_session_execute_api(:get, "/v1/accounts?providerAccountId=#{provider_account_id}&container=&#{container_name}")
+    end
+
+    def get_account(account_id)
+      user_session_execute_api(:get, "v1/accounts/#{account_id}")
+
     def get_provider_details(provider_id)
       user_session_execute_api(:get, "/v1/providers/#{provider_id}")
     end
@@ -165,7 +172,7 @@ module YodleeWrap
         request.body = params.to_json unless params.empty?
         request.headers['Content-Type'] = 'application/json' unless params.empty?
       end
-      body = JSON.parse(response.body) || {}
+      body = JSON.parse(response.body.blank? ? '{}' : response.body)
       debug_log "response=#{response.status} success?=#{response.success?} body=#{body}"
       Response.new(body, response.status)
     end
@@ -191,6 +198,5 @@ module YodleeWrap
     def base_url
       "https://developer.api.yodlee.com/ysl/#{cobrand_name}"
     end
-
   end
 end
