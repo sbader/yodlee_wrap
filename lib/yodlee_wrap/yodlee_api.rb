@@ -107,12 +107,18 @@ module YodleeWrap
       user_session_execute_api(:get, "/v1/transactions")
     end
 
-    def get_accounts_for(provider_account_id, container_name)
-      user_session_execute_api(:get, "/v1/accounts?providerAccountId=#{provider_account_id}&container=&#{container_name}")
+    def get_accounts_for(provider_account_id)
+      user_session_execute_api(:get, "/v1/accounts?providerAccountId=#{provider_account_id}")
     end
 
-    def get_account(account_id)
-      user_session_execute_api(:get, "v1/accounts/#{account_id}")
+    def get_all_accounts
+      user_session_execute_api(:get, "/v1/accounts/")
+    end
+
+    # the get account endpoint requires that the user provide the container type. Not sure why.
+    def get_account(account_id, container_name)
+      user_session_execute_api(:get, "/v1/accounts/#{account_id}?container=#{container_name}")
+    end
 
     def get_provider_details(provider_id)
       user_session_execute_api(:get, "/v1/providers/#{provider_id}")
