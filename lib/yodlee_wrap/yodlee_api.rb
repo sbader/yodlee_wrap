@@ -119,6 +119,10 @@ module YodleeWrap
       user_session_execute_api(:get, "/v1/accounts/#{account_id}?container=#{container_name}")
     end
 
+    def delete_account(account_id)
+      user_session_execute_api(:delete, "/v1/accounts/#{account_id}")
+    end
+
     def get_provider_details(provider_id)
       user_session_execute_api(:get, "/v1/providers/#{provider_id}")
     end
