@@ -1,5 +1,4 @@
 require 'json'
-require 'byebug'
 
 module YodleeWrap
   class YodleeApi

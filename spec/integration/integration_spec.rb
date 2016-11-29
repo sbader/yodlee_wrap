@@ -1,5 +1,4 @@
 require "yodlee_wrap"
-require "byebug"
 
 describe 'the yodlee api client integration tests', integration: true do
   let(:config) {
